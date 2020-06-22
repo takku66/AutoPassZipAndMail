@@ -1,0 +1,7 @@
+{	
+	"web_or_logic"	:	"logic",
+    "pass_length"   :   "10",
+	"url"			:	"https:\/\/www.luft.co.jp\/cgi\/randam.php",
+	"wait_title"	:	"パスワード生成（パスワード作成）",
+	"clip_board"	:	true
+}

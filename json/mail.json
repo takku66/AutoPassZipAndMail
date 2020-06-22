@@ -1,0 +1,42 @@
+{	
+	"mail":[
+				{
+					"content":[
+								"hogehoge‚Ö",
+								"",
+								"hogehoge",
+								"fugafuga",
+								"",
+								"hogehoge"
+							],
+					"toAddress":"hogehoge@gmail.com",
+					"ccAddress":"",
+					"bccAddress":"",
+					"subject":"y$__MailPreMonth__Œ•ª‚Ìƒ[ƒ‹z",
+					"attachment":"$__AttachmentFile__"
+				},
+				{
+					content:[
+								"$__ZipFileName__",
+								"",
+								"$__ZipPass__"
+							],
+					"toAddress":"hogehoge@gmail.com,fugafuga@gmail.com",
+					"ccAddress":"",
+					"bccAddress":"",
+					"subject":"y$__MailMonth__Œ•ª‚Ìƒ[ƒ‹z",
+					"attachment":""
+				},
+				{
+					content:[
+								"$__MailYear__/$__MailMonth__/$__MailDay__"
+							],
+					"toAddress":"hogehoge@gmail.com,fugafuga@gmail.com",
+					"ccAddress":"",
+					"bccAddress":"",
+					"subject":"y$__MailNextMonth__Œ•ª‚Ìƒ[ƒ‹z",
+					"attachment":""
+				}
+			],
+	"mail_options":"-compose \"to='$__toAddress__',cc='$__ccAddress__',bcc='$__bccAddress__',subject=$__subject__,attachment='$__attachment__',body='$__content__'\""
+}

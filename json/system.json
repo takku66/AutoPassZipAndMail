@@ -1,0 +1,13 @@
+{	
+	"web_driver"		:	"C:\\System\\Selenium\\dist\\Selenium.WebDriver.3.14.0\\lib\\net40\\WebDriver.dll",
+	"driver_support"	:	"C:\\System\\Selenium\\dist\\Selenium.Support.3.14.0\\lib\\net45\\WebDriver.Support.dll",
+	"selenium"			:	"C:\\System\\Selenium\\dist\\Selenium.WebDriverBackedSelenium.3.14.0\\lib\\net45\\Selenium.WebDriverBackedSelenium.dll",
+	"driver_type"		:	"edge or chrome",
+	"driver_type"		:	"chrome",
+	"edge_driver"		:	"C:\\Windows\\SysWOW64",
+	"chrome_driver"		:	"C:\\System\\Selenium\\",
+	"zip_module"		:	"C:\\Program Files (x86)\\Lhaplus\\Lhaplus.exe",
+	"mail_program"		:	"C:\\Program Files (x86)\\Mozilla Thunderbird\\thunderbird.exe",
+	"log_file"			:	"./ps.log",
+	"debug_mode"		:	false
+}
