@@ -3,41 +3,15 @@ $CurrentDir = Split-Path $MyInvocation.MyCommand.Path -Parent;
 # 実行ファイル名取得
 $PsFileName = $MyInvocation.MyCommand.Name;
 
-# ログ出力用年月日
-$Now = (Get-Date).ToString("yyyy/mm/dd hh:mm:ss ");
+＃ ログファイル出力スクリプトを展開
+. ".\\logger.ps1";
 
-function outLog($logType, $logContent){
-    if($logType -eq "E"){
-        "$Now Error  :  $logContent">>$CurrentDir\$Log;
-    }elseif($logType -eq "W"){
-        "$Now Warning:  $logContent">>$CurrentDir\$Log;
-    }elseif($logType -eq "I"){
-        "$Now Info   :  $logContent">>$CurrentDir\$Log;
-    }else{
-        "">>$CurrentDir\$Log;
-    }
-
-    if($Debug){
-        Write-Debug "$Now $logContent";
-    }
-}
-
+＃ JSONファイル読み込みスクリプトを展開
 try{
-    # 各JSONファイルを読み込み
-    $SystemJson = ConvertFrom-Json -InputObject (Get-Content $CurrentDir\json\system.json -Raw);
-    $PassJson = ConvertFrom-Json -InputObject (Get-Content $CurrentDir\json\pass.json -Raw);
-    $ZipJson = ConvertFrom-Json -InputObject (Get-Content $CurrentDir\json\zip.json -Raw);
-    $MailJson = ConvertFrom-Json -InputObject (Get-Content $CurrentDir\json\mail.json -Raw);
-    # ログファイル
-    $Log = $SystemJson.log_file;
-    # デバッグモード
-    $Debug = $SystemJson.debug_mode;
-    
-    outLog "" "";
-    outLog "I" "処理開始：[$PsFileName]";
+	. ".\\read_json.ps1";
 }catch{
-    outLog "E" "Jsonファイルの読み込み中のエラー。";
-    outLog "E" $_.Exception;
+	outLog "E" $_.Exception;
+	exit 1;
 }
 
 
@@ -63,6 +37,7 @@ function downloadPassFromWeb($PassLen) {
         }catch{
             outLog "E" "エッジドライバー読み込み中のエラー。";
             outLog "E" $_Exception;
+            exit 1;
         }
     }elseif($DriverType -eq "chrome"){
         try{
@@ -71,6 +46,7 @@ function downloadPassFromWeb($PassLen) {
         }catch{
             outLog "E" "クロームドライバー読み込み中のエラー。";
             outLog "E" $_Exception;
+            exit 1;
         }
     }
 
@@ -184,6 +160,7 @@ if($PassJson.web_or_logic -eq "web"){
     }catch{
         outLog "E" "ウェブでのパスワード取得中のエラー。";
         outLog "E" $_.Exception;
+        exit 1;
     }
         
 }elseif($PassJson.web_or_logic -eq "logic"){
@@ -192,6 +169,7 @@ if($PassJson.web_or_logic -eq "web"){
     }catch{
         outLog "E" "パスワード生成中のエラー。";
         outLog "E" $_.Exception;
+        exit 1;
     }
 }
 

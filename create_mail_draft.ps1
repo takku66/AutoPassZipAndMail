@@ -3,41 +3,15 @@ $CurrentDir = Split-Path $MyInvocation.MyCommand.Path -Parent;
 # 実行ファイル名取得
 $PsFileName = $MyInvocation.MyCommand.Name;
 
-# ログ出力用年月日
-$Now = (Get-Date).ToString("yyyy/mm/dd hh:mm:ss ");
+＃ ログファイル出力スクリプトを展開
+. ".\\logger.ps1";
 
-function outLog($logType, $logContent){
-    if($logType -eq "E"){
-        "$Now Error  :  $logContent">>$CurrentDir\$Log;
-    }elseif($logType -eq "W"){
-        "$Now Warning:  $logContent">>$CurrentDir\$Log;
-    }elseif($logType -eq "I"){
-        "$Now Info   :  $logContent">>$CurrentDir\$Log;
-    }else{
-        "">>$CurrentDir\$Log;
-    }
-
-    if($Debug){
-        Write-Debug "$Now $logContent";
-    }
-}
-
-
+＃ JSONファイル読み込みスクリプトを展開
 try{
-    # 各JSONファイルを読み込み
-    $SystemJson = ConvertFrom-Json -InputObject (Get-Content $CurrentDir\json\system.json -Raw);
-    $PassJson = ConvertFrom-Json -InputObject (Get-Content $CurrentDir\json\pass.json -Raw);
-    $ZipJson = ConvertFrom-Json -InputObject (Get-Content $CurrentDir\json\zip.json -Raw);
-    $MailJson = ConvertFrom-Json -InputObject (Get-Content $CurrentDir\json\mail.json -Raw);
-    # ログファイル
-    $Log = $SystemJson.log_file;
-    # デバッグモード
-    $Debug = $SystemJson.debug_mode;
-    outLog "" "";
-    outLog "I" "処理開始：[$PsFileName]";
+	. ".\\read_json.ps1";
 }catch{
-    outLog "E" "Jsonファイルの読み込み中にエラーが発生しました。";
-    outLog "E" $_.Exception;
+	outLog "E" $_.Exception;
+	exit 1;
 }
 
 # 引数を取得する
@@ -144,8 +118,9 @@ for($MailCnt = 0; $MailCnt -lt $MailJson.mail.Count; $MailCnt++){
         outLog "E" (($MailCnt+1)+"通目");
         outLog "E" (($ContentCnt+1)+"行目");
         outLog "E" $_.Exception;
+        exit 1;
     }
 }
 outLog "I" "メール作成処理終了";
 
-return 0;
+exit 0;
