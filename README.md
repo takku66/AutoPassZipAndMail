@@ -2,10 +2,10 @@
 
 
 ## 動作確認環境
-・OS:Windows10
-・実行プログラム：コマンドプロンプト / Powershell
-・ZIP化モジュール：Lhaplus
-・メールサービス；Thunderbird
+・OS:Windows10  
+・実行プログラム：コマンドプロンプト / Powershell  
+・ZIP化モジュール：Lhaplus  
+・メールサービス；Thunderbird  
 
 
 ## 使用方法
