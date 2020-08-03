@@ -5,7 +5,7 @@
 ・OS:Windows10  
 ・実行プログラム：コマンドプロンプト / Powershell  
 ・ZIP化モジュール：Lhaplus  
-・メールサービス；Thunderbird  
+・メールサービス：Thunderbird  
 
 
 ## 使用方法
@@ -21,9 +21,6 @@
 
 ・`zip_module`
 ZIP化するプログラムの格納先を記載します。
-
-・`mail_program`
-使用するメールサービスを指定します。
 
 ・`mail_program`
 使用するメールサービスを指定します。
