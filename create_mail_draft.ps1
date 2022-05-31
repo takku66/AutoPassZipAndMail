@@ -3,16 +3,18 @@ $CurrentDir = Split-Path $MyInvocation.MyCommand.Path -Parent;
 # 実行ファイル名取得
 $PsFileName = $MyInvocation.MyCommand.Name;
 
-＃ ログファイル出力スクリプトを展開
-. ".\\logger.ps1";
-
-＃ JSONファイル読み込みスクリプトを展開
+# JSONファイル読み込みスクリプトを展開
 try{
 	. ".\\read_json.ps1";
+	# ログファイル出力スクリプトを展開
+	. ".\\logger.ps1";
 }catch{
 	outLog "E" $_.Exception;
 	exit 1;
 }
+
+
+
 
 # 引数を取得する
 $ZipPass = $args[0];
@@ -38,7 +40,7 @@ $MailPreDay = ((Get-Date).AddDays(-1)).Day;
 # 次の日を取得する
 $MailNextDay = ((Get-Date).AddDays(+1)).Day;
 
-$ZipTargetDir = $ZipJson.target_path;
+$ZipTargetDir = $ZipJson.targetPath;
 
 $AttachmentFile="";
 
@@ -98,7 +100,7 @@ for($MailCnt = 0; $MailCnt -lt $MailJson.mail.Count; $MailCnt++){
         $subject = $MailJson.mail[$MailCnt].subject;
         $attachment = $MailJson.mail[$MailCnt].attachment;
         $content = $MailContent;
-        $mailopts = $MailJson.mail_options;
+        $mailopts = $MailJson.mailOptions;
 	
         $subject = replaceVar($subject);
         $attachment = replaceVar($attachment);
@@ -108,7 +110,7 @@ for($MailCnt = 0; $MailCnt -lt $MailJson.mail.Count; $MailCnt++){
     
         $mailopts = replaceVar($mailopts);
 
-        Start-Process $SystemJson.mail_program -ArgumentList $mailopts;
+        Start-Process $SystemJson.mailProgram -ArgumentList $mailopts;
 
 	    if($Debug){
             $content>$CurrentDir\mail$MailCnt.txt;

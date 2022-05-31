@@ -3,28 +3,31 @@ $CurrentDir = Split-Path $MyInvocation.MyCommand.Path -Parent;
 # 実行ファイル名取得
 $PsFileName = $MyInvocation.MyCommand.Name;
 
-＃ ログファイル出力スクリプトを展開
-. ".\\logger.ps1";
-
-＃ JSONファイル読み込みスクリプトを展開
+# JSONファイル読み込みスクリプトを展開
 try{
 	. ".\\read_json.ps1";
+	# ログファイル出力スクリプトを展開
+	. ".\\logger.ps1";
+
 }catch{
 	outLog "E" $_.Exception;
 	exit 1;
 }
 
+
+
+
 # 引数を取得する
 $ZipPass = $args[0];
 
 # zip化モジュールを指定
-$ZipProgram = $SystemJson.zip_module;
+$ZipProgram = $SystemJson.zipModule;
 
 # zip対象のフォルダを指定
-$ZipTargetDir = $ZipJson.target_path;
+$ZipTargetDir = $ZipJson.targetPath;
 
 # zip対象のフォルダを指定
-$ZipTargetFile = $ZipJson.target_file;
+$ZipTargetFile = $ZipJson.targetFile;
 
 try{
 	$ZipTargetFiles = @(Get-ChildItem ($ZipTargetDir + "\" + $ZipTargetFile) -Include *);

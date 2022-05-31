@@ -3,20 +3,21 @@ $CurrentDir = Split-Path $MyInvocation.MyCommand.Path -Parent;
 # 実行ファイル名取得
 $PsFileName = $MyInvocation.MyCommand.Name;
 
-＃ ログファイル出力スクリプトを展開
-. ".\\logger.ps1";
-
-＃ JSONファイル読み込みスクリプトを展開
+# JSONファイル読み込みスクリプトを展開
 try{
 	. ".\\read_json.ps1";
+	# ログファイル出力スクリプトを展開
+	. ".\\logger.ps1";
+
 }catch{
 	outLog "E" $_.Exception;
 	exit 1;
 }
 
 
+
 # 桁数
-$PassLen = $PassJson.pass_length;
+$PassLen = $PassJson.passLength;
 
 function downloadPassFromWeb($PassLen) {
 
@@ -59,7 +60,7 @@ function downloadPassFromWeb($PassLen) {
     {
       Start-Sleep -s 1
       $title = $driver.Title;
-    } until($title.Contains($PassJson.wait_title))
+    } until($title.Contains($PassJson.waitTitle))
     outLog "I" "接続成功：[$PassJson.url]";
 
 
@@ -98,7 +99,7 @@ function downloadPassFromWeb($PassLen) {
     {
       Start-Sleep -s 1
       $title = $driver.Title;
-    } until($title.Contains($PassJson.wait_title))
+    } until($title.Contains($PassJson.waitTitle))
 
     Start-Sleep -s 1
 
@@ -152,9 +153,7 @@ function generatePass($PassLen) {
     return $password;
 }
 
-
-
-if($PassJson.web_or_logic -eq "web"){
+if($PassJson.webOrLogic -eq "web"){
     try{
         $ZipPass = downloadPassFromWeb $PassLen;
     }catch{
@@ -163,8 +162,9 @@ if($PassJson.web_or_logic -eq "web"){
         exit 1;
     }
         
-}elseif($PassJson.web_or_logic -eq "logic"){
+}elseif($PassJson.webOrLogic -eq "logic"){
     try{
+    	echo ロジックでのパスワード生成処理まで入っているよ
         $ZipPass = generatePass $PassLen;
     }catch{
         outLog "E" "パスワード生成中のエラー。";
@@ -174,9 +174,10 @@ if($PassJson.web_or_logic -eq "web"){
 }
 
 
-if($PassJson.clip_board){
+if($PassJson.clipBoard){
     Set-Clipboard -Value $ZipPass[($ZipPass.Count-1)];
 }
 
+echo $ZipPass[($ZipPass.Count-1)];
 return $ZipPass[($ZipPass.Count-1)];
 

@@ -11,9 +11,9 @@ try{
     $ZipJson = ConvertFrom-Json -InputObject (Get-Content $CurrentDir\json\zip.json -Raw);
     $MailJson = ConvertFrom-Json -InputObject (Get-Content $CurrentDir\json\mail.json -Raw);
     # ログファイル
-    $Log = $SystemJson.log_file;
+    $Log = $SystemJson.logFile;
     # デバッグモード
-    $Debug = $SystemJson.debug_mode;
+    $Debug = $SystemJson.debugMode;
     
 }catch{
 	
