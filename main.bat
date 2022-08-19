@@ -24,7 +24,15 @@ echo %CREATE_MAIL_DRAFT%
 timeout 10
 
 setlocal enabledelayedexpansion
+
+:GENERATE_PASSWORD
 rem ランダムパスワード取得ファイル実行
+SET /P MANUAL_PASS=パスワードを手動で取得しますか？(y/n)
+if "%MANUAL_PASS%"=="y" (
+	SET /P PASS=設定するパスワードを入力してください。
+	goto CREATE_ZIP_WITH_PASS
+)
+
 FOR /F "usebackq delims=" %%a IN (`%POWERSHELL% -executionpolicy bypass -File %GET_PASS%`) DO (
 	SET PASS=%%a
 )
@@ -36,6 +44,8 @@ if %errorlevel% neq 0 (
 echo "ランダムパスワード取得処理終了"
 timeout 10
 
+
+:CREATE_ZIP_WITH_PASS
 rem パスワード付きZIPファイル作成処理実行
 FOR /F "usebackq delims=" %%a IN (`%POWERSHELL% -executionpolicy bypass -File %CONV_ZIP% !PASS!`) DO (
 	SET ZIP_FILE_NAME=%%a
@@ -46,6 +56,8 @@ if %errorlevel% neq 0 (
 )
 echo "パスワード月ZIPファイル作成処理終了"
 
+
+:CREATE_DRAFT_MAIL
 rem 下書きメール作成処理実行
 FOR /F "usebackq delims=" %%i IN (`%POWERSHELL% -executionpolicy bypass -File %CREATE_MAIL_DRAFT% !PASS!`) DO SET VALUE=%%i
 if %errorlevel% neq 0 (
